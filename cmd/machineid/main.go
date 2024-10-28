@@ -16,8 +16,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 
-	"github.com/yinyajiang/machineid"
+	"github.com/khulnasoft-lab/machineid"
 )
 
 const usageStr = `
@@ -31,16 +32,15 @@ Try:
   machineid --appid MyAppID
 `
 
-func usage() {
-	log.Fatalln(usageStr)
-}
-
 func main() {
 	var appID string
 	flag.StringVar(&appID, "appid", "", "Protect machine id by hashing it together with an app id.")
 
 	log.SetFlags(0)
-	flag.Usage = usage
+	flag.Usage = func() {
+		fmt.Print(usageStr)
+		os.Exit(1)
+	}
 	flag.Parse()
 
 	var id string
